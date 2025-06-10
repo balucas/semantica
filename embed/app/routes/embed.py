@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from services.embedding import get_embedding
+from app.services.embedding import get_embedding
 
 embed_bp = Blueprint("embed", __name__)
 
