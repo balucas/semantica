@@ -1,6 +1,6 @@
 from transformers import pipeline
 
-def get_embedding(text):
+def embed_text(text):
     print("Generating embedding for text:", text)
     pipe = pipeline(
         "feature-extraction",
