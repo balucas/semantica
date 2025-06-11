@@ -17,6 +17,7 @@ def embed():
 @embed_bp.route("/notes", methods=["POST"])
 def create_note():
     data = request.get_json()
+    print("DEBUG - before embed_text called")
     embedding = embed_text(data["content"])
     note_id = insert_note(
         title=data["title"],

@@ -38,9 +38,12 @@ services:
     - "5001:5001"
     environment:
       PORT: 5001
-
-
-
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_URL: postgresql://user:password@db:5432/semanticadb
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
   pgdata:

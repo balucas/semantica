@@ -8,7 +8,8 @@ from psycopg2.pool import SimpleConnectionPool
 load_dotenv()
 
 # Connection pool stuff
-DB_URL = os.getenv("DATABASE_URL")
+DB_URL = os.getenv("DB_URL")
+
 pool = SimpleConnectionPool(minconn=1, maxconn=10, dsn=DB_URL)
 
 def get_conn():
@@ -18,7 +19,7 @@ def release_conn(conn):
     pool.putconn(conn)
 
 
-def insert_note(user_id, content, embedding, content_format="markdown"):
+def insert_note(user_id, title, content, embedding, content_format="markdown"):
     note_id = str(uuid.uuid4())
     now = datetime.now(timezone.utc)
 
@@ -28,11 +29,12 @@ def insert_note(user_id, content, embedding, content_format="markdown"):
             # Insert metadata
             cur.execute("""
                 INSERT INTO note_metadata (
-                    id, user_id, date_added, date_updated, content_format, embedding
-                ) VALUES (%s, %s, %s, %s, %s, %s)
+                    id, user_id, title, date_added, date_updated, content_format, embedding
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, (
                 note_id,
                 user_id,
+                title,
                 now,
                 now,
                 content_format,
