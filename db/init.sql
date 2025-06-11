@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS 'uuid-ossp';
 
 CREATE TABLE note_content 
 (
-    id bigserial PRIMARY KEY REFERENCES metadata_and_context(id) ON DELETE CASCADE, 
+    note_id UUID PRIMARY KEY REFERENCES note_metadata(id) ON DELETE CASCADE, 
     content text,
 );
 
