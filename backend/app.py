@@ -14,6 +14,7 @@ DB_PASSWORD = os.environ.get('DB_PASSWORD')
 
 app = Flask(__name__)
 
+
 conn = psycopg2.connect(
 database=DB_NAME,
 user=DB_USER,
@@ -48,23 +49,16 @@ def insert_with_vec(data): #TODO: make this support batch operations
                     VALUES (%s, %s, %s, %s)''', (userid, embedding, date_added, actual_data_nocontext))
         conn.commit()
     
-
-        
-
 @app.route('/')
 def hello():
     return render_template('index.html')
 
 @app.route('/query', methods=['GET'])
 def get_example():
-    # For a GET request, data sent by the client is typically in the query string.
-    # You can access it using request.args (for URL parameters).
-    query_params = request.args  # This is an ImmutableMultiDict of the query parameters
+    query_params = request.args
+    
     with conn.cursor() as cur:
-        # Execute a query
         cur.execute("SELECT * FROM user_text")
-
-        # Retrieve query results
         records = cur.fetchall()
 
     return {
