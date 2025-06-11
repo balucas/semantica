@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useQuery } from '@tanstack/react-query'
-import { Card, CardContent, Typography, Grid } from '@mui/material'
+import { Card, CardContent, Typography, List, ListItem, ListItemText, Divider } from '@mui/material'
 import { notesApi } from '@/api/notes'
 import { RootState } from '@/store'
 import { setLoading, setError } from './notesSlice'
@@ -31,19 +31,27 @@ export const NotesList = () => {
   }
 
   return (
-    <Grid container spacing={2}>
-      {notes.map((note) => (
-        <Grid item xs={12} key={note.id}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6">{note.content}</Typography>
-              <Typography variant="caption" color="text.secondary">
-                {new Date(note.createdAt).toLocaleDateString()}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
+    <List>
+      {notes.map((note, index) => (
+        <div key={note.id}>
+          <ListItem>
+            <ListItemText
+              primary={note.content}
+              secondary={new Date(note.createdAt).toLocaleDateString()}
+              primaryTypographyProps={{
+                sx: { 
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                }
+              }}
+            />
+          </ListItem>
+          {index < notes.length - 1 && <Divider />}
+        </div>
       ))}
-    </Grid>
+    </List>
   )
 } 

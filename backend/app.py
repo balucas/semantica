@@ -49,7 +49,7 @@ def insert_with_vec(data): #TODO: make this support batch operations
     
     with conn.cursor() as cur:
         cur.execute('''INSERT INTO user_text 
-                    (user_id, embedding, date_added, actual_data, format_type) 
+                    (user_id, embedding, date_added, content, format_type) 
                     VALUES (%s, %s, %s, %s, %s)''', 
                     (userid, embedding, date_added, actual_data_nocontext, format_type))
         conn.commit()
