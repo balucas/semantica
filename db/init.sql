@@ -10,7 +10,6 @@ CREATE TABLE note_content
 CREATE TABLE note_metadata
 (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    content_id bigserial
     user_id integer NOT NULL, 
     date_added timestamp,
     date_updated timestamp,
