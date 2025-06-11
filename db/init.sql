@@ -13,8 +13,6 @@ CREATE TABLE note_metadata
     user_id integer NOT NULL, 
     date_added timestamp,
     date_updated timestamp,
-    -- site_url text,
-    -- context_descriptor text,
     content_format text DEFAULT 'markdown'
     embedding vector(512)
 );
@@ -26,11 +24,3 @@ CREATE TABLE users
     password_salt VARCHAR(255),
     password_hash VARCHAR(255)
 )
--- CREATE TABLE user_bigtext
--- (
--- id bigserial PRIMARY KEY, 
--- user_id integer NOT NULL, 
--- embedding vector(3),
--- date_added timestamp,
--- datapath text NOT NULL
--- );
