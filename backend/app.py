@@ -43,10 +43,15 @@ def insert_with_vec(data): #TODO: make this support batch operations
     embedding = get_embedding(actual_data_nocontext, n=3)
     date_added = datetime.datetime.now()
     
+    # Get format information
+    validation_result = assert_upload(data)
+    format_type = validation_result['format']
+    
     with conn.cursor() as cur:
         cur.execute('''INSERT INTO user_text 
-                    (user_id, embedding, date_added, actual_data) 
-                    VALUES (%s, %s, %s, %s)''', (userid, embedding, date_added, actual_data_nocontext))
+                    (user_id, embedding, date_added, actual_data, format_type) 
+                    VALUES (%s, %s, %s, %s, %s)''', 
+                    (userid, embedding, date_added, actual_data_nocontext, format_type))
         conn.commit()
     
 @app.route('/')
@@ -68,13 +73,23 @@ def get_example():
 
 @app.route('/upload', methods=['POST'])
 def post_example():
-    data = request.get_json()
-    print(data)
-    print(assert_upload(data))
-    
-       
-    insert_with_vec(data)
-    return {"received": data}, 201
+    try:
+        data = request.get_json()
+        if not data:
+            return {"error": "No JSON data provided"}, 400
+            
+        validation_result = assert_upload(data)
+        insert_with_vec(data)
+        
+        return {
+            "status": "success",
+            "message": "Data uploaded successfully",
+        }, 201
+        
+    except ValueError as e:
+        return {"error": str(e)}, 400
+    except Exception as e:
+        return {"error": f"An unexpected error occurred: {str(e)}"}, 500
 
 
 if __name__ == '__main__':
