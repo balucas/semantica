@@ -1,0 +1,19 @@
+# Ignore build and output directories
+dist/
+build/
+out/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore environment files
+.env
+.env.*
+
+# Ignore IDE and editor settings
+.vscode/
+*.code-workspace
+.idea/
+*.swp
+infrastructure/

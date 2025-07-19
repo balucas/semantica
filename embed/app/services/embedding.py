@@ -1,6 +1,7 @@
+from sentence_transformers import SentenceTransformer
+from flask import jsonify
+model = SentenceTransformer('jinaai/jina-embeddings-v3', trust_remote_code=True)
 
 def embed_text(text):
-    # Removed pipeline, incorrect use for embeddings
-    # TODO: Implement actual embedding logic here
-    embed_vector = [0.5]*512  # Mocked embedding vector
-    return embed_vector
+    embed_vector = model.encode(text)
+    return embed_vector.tolist()
